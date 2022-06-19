@@ -30,7 +30,7 @@ export class CommonService {
     return this.firestore.collection('users').doc(id).set(obj,{merge:true})
   }
   getUsers(){
-    return this.firestore.collection('users',ref => ref.where('id' ,'!=' , this.id)&& orderBy("name", "asc")).snapshotChanges(); 
+    return this.firestore.collection('users',ref => ref.where('id' ,'!=' , this.id)).snapshotChanges(); //.orderBy("name", "asc")
   }
   getUserById(id:string){
     return this.firestore.collection('users').doc(id).get();
