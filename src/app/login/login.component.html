@@ -1,0 +1,78 @@
+<div class="loginComponent">
+    
+
+    <!-- signup  -->
+    <div class="login" *ngIf="!haveAnAccount">
+        <header>
+            <h2>SignUp</h2> <hr>
+        </header>
+        <form action="" [formGroup]="signupForm">
+
+            <mat-form-field class="formInput">
+                <mat-label>Name</mat-label>
+                <input matInput type="text" formControlName="name" required>
+            </mat-form-field>
+
+            <mat-form-field class="formInput">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" formControlName="email" required>
+            </mat-form-field>
+
+            <mat-form-field class="formInput">
+                <mat-label>Phone number</mat-label>
+                <input type="text" matInput formControlName="phone" required>
+            </mat-form-field>
+
+            <mat-form-field class="formInput">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" formControlName="password" required>
+            </mat-form-field>
+
+
+            <div class="submit_button">
+                <button mat-raised-button color="warn">Cancel</button>
+                <button mat-raised-button color="primary" [disabled]="!signupForm?.valid"
+                    (click)="signup(signupForm?.value)">Signup</button>
+            </div>
+
+
+        </form>
+        <div class="dontHaveAccount">
+            You an have account <span style="color: blue; cursor: pointer;" (click)="dontHaveAccount()">Login here</span>
+        </div>
+
+    </div>
+
+
+
+    <!-- login -->
+    <div class="login" *ngIf="haveAnAccount">
+        <header>
+            <h2>Login</h2>
+        </header>
+        <form action="" [formGroup]="loginForm">
+
+            <mat-form-field class="formInput">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" formControlName="email" required>
+            </mat-form-field>
+
+            <mat-form-field class="formInput">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" formControlName="password" required>
+            </mat-form-field>
+
+            <div class="submit_button">
+                <button mat-raised-button color="warn">Cancel</button>
+                <button mat-raised-button color="primary" [disabled]="!loginForm?.valid"
+                    (click)="login(loginForm?.value)">Login</button>
+            </div>
+        </form>
+
+        <div class="dontHaveAccount">
+            You don't have an account <span style="color: blue; cursor: pointer;" (click)="dontHaveAccount()" >Signup here</span>
+        </div>
+
+    </div>
+
+</div>

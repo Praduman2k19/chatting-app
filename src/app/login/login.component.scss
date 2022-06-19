@@ -1,0 +1,52 @@
+.loginComponent{
+    height: 100%;
+    width: 100%;
+    background: #EFEAE2;
+    justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+
+    background-image: url('https://cdn.wallpapersafari.com/68/67/U1SFl7.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    .login {
+        height: max-content;
+        width: 320px;
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 2px;
+        box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.402);
+
+        header{
+            // border-bottom: 2px solid blue;
+            margin-bottom: 10px;
+            text-align: center;
+            h2{
+                font-weight: bolder;
+                text-transform: capitalize;
+            }
+        }
+        .formInput {
+            width: 100%;
+        }
+
+        .submit_button {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+
+            button {
+                width: 48%;
+            }
+        }
+        .dontHaveAccount{
+            text-align: center;
+            margin-top: 20px;
+            a{
+                text-decoration: none;
+            }
+        }
+    }
+}

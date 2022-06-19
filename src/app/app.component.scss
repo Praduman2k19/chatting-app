@@ -1,0 +1,28 @@
+.background {
+    height: 100vh;
+    width: 100vw;
+    background: #E1E0DD;
+    position: relative;
+
+    .background1 {
+        height: 10vh;
+        background: #00A884;
+    }
+}
+
+.whatsappBox {
+    height: 94vh;
+    width: 96vw;
+    top: 3%;
+    left: 2%;
+    position: absolute;
+}
+
+@media only screen and (max-width: 1200px) {
+    .whatsappBox {
+        height: 100vh;
+        width: 100vw;
+        top: 0%;
+        left: 0%;
+    }
+}

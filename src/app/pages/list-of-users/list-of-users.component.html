@@ -1,0 +1,47 @@
+<div class="listOfUser">
+    <div class="header">
+        <mat-icon (click)="dialog.closeAll()">keyboard_backspace</mat-icon>
+        <h2>New Chat</h2>
+    </div>
+
+    <div class="searchBox">
+        <div class="input_group">
+            <img src="../../../assets/images/search.png" alt="" class="form_icon " *ngIf="searching" />
+            <img src="../../../assets/images/left-arrow.png" alt="" class="form_icon " *ngIf="!searching" />
+            <input #userName type="text" id="input" class="l_form_control" placeholder="Type here..."
+                (focus)="onFocusCountry()" (blur)="onBlurCountry()" [(ngModel)]="searchByName" />
+        </div>
+    </div>
+    <mat-divider></mat-divider>
+
+    
+    <!-- list of users  -->
+
+    <div class="users">
+        <!-- group -->
+        <div class="group">
+            <div class="avatar">
+                <mat-icon>group</mat-icon>
+                <!-- <img src="https://lh3.googleusercontent.com/a/AATXAJyvJ2ZtNRR1Ulu427EN_mB_vd8yjwkxR16VKuuH=s96-c" class="" alt=""> -->
+            </div>
+            <div class="media_body ml_12">
+                <h6>New Group</h6>
+            </div>
+        </div>
+        <!-- !group -->
+        <div class="user" *ngFor="let item of allUsers; let i=index" [ngClass]="{'activeChat' : item?.id==currentChatUserId}" (click)="setCurrentChat(item)" >
+            <div class="avatar" [ngClass]="{'online' : item?.online}">
+                <img src="https://lh3.googleusercontent.com/a/AATXAJyvJ2ZtNRR1Ulu427EN_mB_vd8yjwkxR16VKuuH=s96-c" class=""
+                    alt="">
+            </div>
+            <div class="media_body ml_12" >
+                <h6>{{item?.name}}</h6>
+                <span>lorem lorem loremlorem lorem ...</span>
+            </div>
+            <!-- <div class="media_status">
+                <p class="time">12:32</p>
+                <span class="time_class">2</span>
+            </div> -->
+        </div>
+    </div>
+</div>

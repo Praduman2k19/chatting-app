@@ -1,0 +1,22 @@
+
+.whatsappBox {
+    height: 100%;
+    width: 100%;
+    background: #EFEAE2;
+    display: flex;
+    overflow: hidden;
+
+    .sidebar {
+        width: 30%;
+        min-width: 300px;
+        height: 100%;
+        background: #ffffff;
+    }
+
+    .chatArea {
+        width: 70%;
+        min-width: 300px;
+        height: 100%;
+    }
+}
+
