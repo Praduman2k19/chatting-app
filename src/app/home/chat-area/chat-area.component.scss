@@ -91,6 +91,9 @@
         height: 600px;
         height: calc(100% - 130px);
         overflow-y: scroll;
+        background: url('../../../assets/images/chat\ background.png');
+        background-repeat: no-repeat;
+        background-size: cover;
 
         // direction: rtl;
         // transform: rotate(180deg);
