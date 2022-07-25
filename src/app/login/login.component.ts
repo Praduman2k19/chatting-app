@@ -53,8 +53,8 @@ export class LoginComponent implements OnInit {
       let userData={
         name:data?.name,
         email:data?.email,
-        phone:data.phone,
-        photoURL:"https://i.pravatar.cc/300",
+        phone:data?.phone,
+        photoURL:"",
         interests:"",
         bio:"",
         id:user?.uid,

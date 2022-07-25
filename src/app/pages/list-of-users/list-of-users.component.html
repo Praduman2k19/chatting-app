@@ -8,8 +8,7 @@
         <div class="input_group">
             <img src="../../../assets/images/search.png" alt="" class="form_icon " *ngIf="searching" />
             <img src="../../../assets/images/left-arrow.png" alt="" class="form_icon " *ngIf="!searching" />
-            <input #userName type="text" id="input" class="l_form_control" placeholder="Type here..."
-                (focus)="onFocusCountry()" (blur)="onBlurCountry()" [(ngModel)]="searchByName" />
+            <input #userName type="text" id="input" class="l_form_control" placeholder="Search by Name/Number" [(ngModel)]="searchByName" (keyup)="filterUsers()" (focus)="onFocusCountry()" (blur)="onBlurCountry()" />
         </div>
     </div>
     <mat-divider></mat-divider>
@@ -29,7 +28,7 @@
             </div>
         </div>
         <!-- !group -->
-        <div class="user" *ngFor="let item of allUsers; let i=index" [ngClass]="{'activeChat' : item?.id==currentChatUserId}" (click)="setCurrentChat(item)" >
+        <div class="user" *ngFor="let item of filteredUsers; let i=index" [ngClass]="{'activeChat' : item?.id==currentChatUserId}" (click)="setCurrentChat(item)" >
             <div class="avatar" [ngClass]="{'online' : item?.online}">
                 <img src="https://lh3.googleusercontent.com/a/AATXAJyvJ2ZtNRR1Ulu427EN_mB_vd8yjwkxR16VKuuH=s96-c" class=""
                     alt="">

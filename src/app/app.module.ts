@@ -24,6 +24,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 
 import { initializeApp } from "firebase/app";
 import { ListOfUsersComponent } from './pages/list-of-users/list-of-users.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 // import { getAnalytics } from "firebase/analytics";
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { ListOfUsersComponent } from './pages/list-of-users/list-of-users.compon
     ChatAreaComponent,
     LoginComponent,
     ListOfUsersComponent,
+    ProfileComponent,
     
   ],
   imports: [

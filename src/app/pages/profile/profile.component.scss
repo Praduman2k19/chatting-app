@@ -1,0 +1,70 @@
+.profile {
+    overflow: hidden;
+    height: 100%;
+    // background: #00A884;
+
+    .header {
+        background: #008069;
+        display: flex;
+        color: #ffffff;
+        padding: 40px 10px 0px 20px;
+
+        mat-icon {
+            padding-top: 5px;
+            padding-right: 10px;
+            pointer-events: auto;
+            cursor: pointer;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+    }
+
+    .photo {
+        text-align: center;
+        margin: 50px 0px;
+
+        img {
+            height: 200px;
+            width: 200px;
+            border-radius: 50%;
+        }
+    }
+
+    .description {
+        padding: 0px 20px;
+        .field {
+
+            span {
+                font-size: 16px;
+                color: rgba(0, 0, 0, 0.464);
+            }
+
+            p {
+                font-size: 18px;
+                line-height: 24px;
+            }
+
+        }
+    }
+}
+
+
+// for dialog...
+::ng-deep.mat-dialog-container {
+    padding: 0px;
+    border-radius: 0px;
+    box-shadow: 0px 11px 15px -7pxrgba(0, 0, 0, 0.2), 0px 24px 38px 3pxrgba(0, 0, 0, 0.14), 0px 9px 46px 8pxrgba(0, 0, 0, 0.12);
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+// ::ng-deep .cdk-overlay-backdrop {
+//     pointer-events: none;
+// }
+
+::ng-deep.cdk-overlay-dark-backdrop {
+    background: initial;
+}

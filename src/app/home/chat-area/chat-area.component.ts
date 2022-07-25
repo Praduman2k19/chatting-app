@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { MatDialog } from '@angular/material/dialog';
+import { ProfileComponent } from 'src/app/pages/profile/profile.component';
+import { AuthService } from 'src/app/services/auth.service';
 import { CommonService } from 'src/app/services/common.service';
 import { SharedService } from 'src/app/services/shared.service';
 
@@ -14,7 +18,7 @@ export class ChatAreaComponent implements OnInit {
   currentChatUserName="";
   currentChatUserOnlineStatus=false;
   id:any;
-  constructor(private service:CommonService,private sharedService:SharedService) { 
+  constructor(private service: CommonService, private sharedService: SharedService, public dialog: MatDialog, public authService: AuthService, public renderer: Renderer2, private firestore: AngularFirestore) { 
     this.id=localStorage.getItem('auth_token')
     this.sharedService.currentChatUserName.subscribe(res=>{this.currentChatUserName=res})
     this.sharedService.currentChatUserOnlineStatus.subscribe(res=>{this.currentChatUserOnlineStatus=res})
@@ -35,6 +39,7 @@ export class ChatAreaComponent implements OnInit {
       
       
     })
+    
   }
 
   ngOnInit(): void {  
@@ -70,7 +75,8 @@ export class ChatAreaComponent implements OnInit {
       createdAt:new Date(),
       updatedAt: new Date()
     }
-    
+
+    this.message = ""
     console.log("send messages ",this.id, this.currentChatUserId,this.createdBy);
     console.log(this.id==this.createdBy);
     
@@ -94,12 +100,72 @@ export class ChatAreaComponent implements OnInit {
           ...item.payload.doc.data()
         }
       })
+      this.filteredMessageList = this.messageList
       console.log('messageList----',this.messageList);
     })
   }
 
+  filteredMessageList: any = []
+  searchByName: string = ''
+  filterMessageList() {
+    this.filteredMessageList = this.messageList;
+    if (this.searchByName != '') {
+      this.filteredMessageList = this.filteredMessageList.filter((chat: any) => {
+        console.log(this.searchByName, chat?.name);
+        return (chat?.message?.toLowerCase().includes(this.searchByName?.toLowerCase()));
+      })
+    }
+    console.log(this.filteredMessageList);
+  }
+  searching = true
+  onFocus() {
+    this.searching = false
+  }
+  onBlur() {
+    this.searching = true
+  }
 
+  sidebarSize: any;
+  @HostListener('window:resize', ['$event'])
+  onResize(event?: any) {
+    let sidebarwidth = document.getElementById("header")?.clientWidth||0
+    console.log(sidebarwidth);
+    let screenWidth = window.innerWidth;
+    console.log(screenWidth);
 
+    if (screenWidth <= 1200) {
+      this.sidebarSize = {
+        right: '0%',
+        height: "100%",
+        width: (screenWidth - sidebarwidth)?.toString() + 'px',
+      }
+    }
+    else {
+      this.sidebarSize = {
+        right: '2%',
+        height: "94%",
+        width: (((screenWidth*96)/100)-sidebarwidth)?.toString() + 'px',
+      }
+    }
+    console.log(this.sidebarSize);
+
+  }
+
+  openProfileDialog(data: any) {
+    this.onResize('')
+    const dialogRef = this.dialog.open(ProfileComponent, {
+      width: this.sidebarSize?.width,
+      height: this.sidebarSize?.height,
+      position: {
+        right: this.sidebarSize?.right,
+      },
+      data: data
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
 
   filteredCurrentChat=[{},{right:true},{},{right:true},{},{right:true},{},{right:true},{},{},{right:true},{},{right:true},{},{right:true},{},{right:true},{},{right:true},{},{right:true}]
 

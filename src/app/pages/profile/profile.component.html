@@ -1,0 +1,30 @@
+<div class="profile">
+    <div class="header">
+        <mat-icon (click)="dialog.closeAll()">keyboard_backspace</mat-icon>
+        <h2>Profile</h2>
+    </div>
+    <div class="photo">
+        <img [src]="profile?.photoURL" alt="" *ngIf="profile?.photoURL">
+        <img src="../../../assets/images/profile.jpg" alt="" *ngIf="!profile?.photoURL">
+        <br><br>
+        <h2 *ngIf="profile?.online">Online</h2>
+        <h2 >{{profile?.phone}}</h2>
+    </div>
+
+    <div class="description">
+        <div class="field">
+            <span>Name</span>
+            <p>{{profile?.name}}</p>
+        </div>
+        <div class="field">
+            <span>Bio</span>
+            <p>{{profile?.bio}}</p>
+        </div>
+        <div class="field">
+            <span>Interests</span>
+            <p>{{profile?.interests}}</p>
+        </div>
+        
+
+    </div>
+</div>

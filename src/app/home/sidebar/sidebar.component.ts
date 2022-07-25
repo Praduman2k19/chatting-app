@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { MatDialog } from '@angular/material/dialog';
 import { ListOfUsersComponent } from 'src/app/pages/list-of-users/list-of-users.component';
+import { ProfileComponent } from 'src/app/pages/profile/profile.component';
 import { AuthService } from 'src/app/services/auth.service';
 import { CommonService } from 'src/app/services/common.service';
 import { SharedService } from 'src/app/services/shared.service';
@@ -23,7 +24,7 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getUser()
+    this.getUserById()
     this.getMyContact()
     this.service.userOnline(this.id,true).then(res=>{
       console.log("user online");          
@@ -31,7 +32,7 @@ export class SidebarComponent implements OnInit {
     // this.myContacts=[{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}]
   }
   user:any=[];
-  getUser(){
+  getUserById(){
     this.service.getUserById(this.id).subscribe(res=>{
       console.log(res);
       this.user=res.data()
@@ -52,7 +53,7 @@ export class SidebarComponent implements OnInit {
       this.myContacts=[];
       tempContacts.forEach((item: any) => {
         this.service.getUserById(item?.id).subscribe(res=>{
-          console.log(res.data());
+          // console.log(res.data());
           let temp:any=res.data()
 
           temp['createdBy']=item?.createdBy;
@@ -61,11 +62,12 @@ export class SidebarComponent implements OnInit {
           // temp['chatId']=item?.chatId;
 
           this.myContacts.push(temp);
-          console.log(this.myContacts);
+          // console.log(this.myContacts);
         })
-        console.log("myContact list-------------",this.myContacts);
+        // console.log("myContact list-------------",this.myContacts);
       });
       console.log("myContact list-------------",this.myContacts);
+      this.filteredContact=this.myContacts
       // tempContacts.forEach((studentID: any) => this.myContacts.push(this.firestore.collection('users').doc(studentID?.id).get()));
       // console.log("myContact list-------------",this.myContacts);
 
@@ -79,6 +81,22 @@ export class SidebarComponent implements OnInit {
       
     })
   }
+
+  filteredContact:any=[]
+  searchByName:string=''
+  filterContact(){
+    this.filteredContact = this.myContacts;
+    if (this.searchByName!=''){
+      this.filteredContact=this.filteredContact.filter((item: any) => {
+        console.log(this.searchByName, item?.name);
+        return (          
+          (item?.name?.toLowerCase().includes(this.searchByName?.toLowerCase()) || item?.phone?.toLowerCase().includes(this.searchByName?.toLowerCase()))
+        );
+      })
+    } 
+    console.log(this.filteredContact);
+  }
+
   setCurrentChat(chat:any){
     console.log(chat);
     this.sharedService.currentChatUserId.next(chat?.id);
@@ -87,8 +105,6 @@ export class SidebarComponent implements OnInit {
     this.sharedService?.currentChatUserOnlineStatus.next(chat?.online) 
   }
 
-  
-  searchByName:string="";
   searching=true
   onFocusCountry(){
     this.searching=false
@@ -141,6 +157,22 @@ export class SidebarComponent implements OnInit {
 
       },
       data:data
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  openProfileDialog(data: any){
+    const dialogRef = this.dialog.open(ProfileComponent, {
+      width: this.sidebarSize?.width,
+      height: this.sidebarSize?.height,
+      position: {
+        left: this.sidebarSize?.left,
+
+      },
+      data: data
     });
 
     dialogRef.afterClosed().subscribe(result => {

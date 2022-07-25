@@ -32,13 +32,8 @@ export class ListOfUsersComponent implements OnInit {
           ...item.payload.doc.data()
         }        
       })
-      // response.forEach( item => {
-      //   this.allUsers?.push({
-      //     id: item.id,
-      //     ...item.data(),
-      //   });        
-      // });   
       console.log("allUsers-------------",this.allUsers);
+      this.filteredUsers=this.allUsers;
     })
   }
   
@@ -50,7 +45,21 @@ export class ListOfUsersComponent implements OnInit {
     this.sharedService?.currentChatUserOnlineStatus.next(chat?.online) 
     this.dialog.closeAll();
   }
-  searchByName:string="";
+  searchByName:string='';
+  filteredUsers: any = []
+  filterUsers() {
+    this.filteredUsers = this.allUsers;
+    if (this.searchByName != '') {
+      this.filteredUsers = this.filteredUsers.filter((item: any) => {
+        console.log(this.searchByName, item?.name);
+        return (
+          (item?.name?.toLowerCase().includes(this.searchByName?.toLowerCase()) || item?.phone?.toLowerCase().includes(this.searchByName?.toLowerCase()))
+        );
+      })
+    }
+    console.log(this.filteredUsers);
+
+  }
   searching=true
   onFocusCountry(){
     this.searching=false

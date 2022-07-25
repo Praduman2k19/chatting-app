@@ -1,14 +1,15 @@
 <div class="sidebar" id="sidebar" onbeforeunload="ConfirmClose()" onunload="HandleOnClose()">
     <div class="header">
         <div class="profile">
-            <img src="https://pbs.twimg.com/profile_images/1237763030420611072/5xfI2ghQ_400x400.jpg" alt="">
+            <img src="../../../assets/images/profile.jpg" class="" alt="" *ngIf="!user?.photoURL" (click)="openProfileDialog(id)">
+            <img src="{{user?.photoURL}}" class="" alt="" *ngIf="user?.photoURL" (click)="openProfileDialog(id)">
         </div>
         <div class="icon">
             <mat-icon (click)="openListOfUsersDialog('')"> chat</mat-icon>
             <mat-icon [matMenuTriggerFor]="beforeMenu">more_vert</mat-icon>
             <mat-menu #beforeMenu="matMenu" xPosition="before">
-                <button mat-menu-item>Profile</button>
-                <button mat-menu-item (click)="authService?.signOut()">Logout</button>
+                <button mat-menu-item (click)="openProfileDialog(user)">Profile</button>
+                <button mat-menu-item (click)="authService.signOut()">Logout</button>
             </mat-menu>
         </div>
     </div>
@@ -17,17 +18,18 @@
         <div class="input_group">
             <img src="../../../assets/images/search.png" alt="" class="form_icon " *ngIf="searching" />
             <img src="../../../assets/images/left-arrow.png" alt="" class="form_icon " *ngIf="!searching" />
-            <input #userName type="text" id="input" class="l_form_control" placeholder="Type here..." (focus)="onFocusCountry()" (blur)="onBlurCountry()" [(ngModel)]="searchByName"/>
+            <input #userName type="text" id="input" class="l_form_control" placeholder="Search by Name/Number" [(ngModel)]="searchByName" (keyup)="filterContact()"  (focus)="onFocusCountry()" (blur)="onBlurCountry()" [(ngModel)]="searchByName"/>
         </div>
     </div>
     <mat-divider></mat-divider>
 
     <div class="users">
-        <div class="user" *ngFor="let item of myContacts; let i=index"  (click)="setCurrentChat(item)" 
+        <div class="user" *ngFor="let item of filteredContact; let i=index"  (click)="setCurrentChat(item)" 
             [ngClass]="{'activeChat' : item?.id==currentChatUserId}">
             <div class="avatar" [ngClass]="{'online' : item?.online}">
-                <img src="https://lh3.googleusercontent.com/a/AATXAJyvJ2ZtNRR1Ulu427EN_mB_vd8yjwkxR16VKuuH=s96-c" class=""
-                    alt="">
+                <!-- <img src="https://lh3.googleusercontent.com/a/AATXAJyvJ2ZtNRR1Ulu427EN_mB_vd8yjwkxR16VKuuH=s96-c" class="" alt=""> -->
+                <img src="../../../assets/images/profile.jpg" class="" alt="" *ngIf="!item?.photoURL" (click)="openProfileDialog(item)">
+                <img src="{{item?.photoURL}}" class="" alt="" *ngIf="item?.photoURL" (click)="openProfileDialog(item)">
             </div>
             <div class="media_body ml_12"  >
                 <h6>{{item?.name}}</h6>

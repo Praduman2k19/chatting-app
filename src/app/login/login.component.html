@@ -31,8 +31,8 @@
 
             <div class="submit_button">
                 <button mat-raised-button color="warn">Cancel</button>
-                <button mat-raised-button color="primary" [disabled]="!signupForm?.valid"
-                    (click)="signup(signupForm?.value)">Signup</button>
+                <button mat-raised-button color="primary" [disabled]="!signupForm.valid"
+                    (click)="signup(signupForm.value)">Signup</button>
             </div>
 
 
@@ -64,8 +64,8 @@
 
             <div class="submit_button">
                 <button mat-raised-button color="warn">Cancel</button>
-                <button mat-raised-button color="primary" [disabled]="!loginForm?.valid"
-                    (click)="login(loginForm?.value)">Login</button>
+                <button mat-raised-button color="primary" [disabled]="!loginForm.valid"
+                    (click)="login(loginForm.value)">Login</button>
             </div>
         </form>
 
