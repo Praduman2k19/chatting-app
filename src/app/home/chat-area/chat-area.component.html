@@ -12,15 +12,15 @@
     </div>
 
     <div class="icon">
-      <mat-icon *ngIf="searching" (click)="onFocus()"> search</mat-icon>
-      <input type="search" class="l_form_control" name="" id="input" (focus)="true" >
-      <!-- <div class="searchBox"> *ngIf="searching"
+      <a *ngIf="searching" (click)="onFocus()"><mat-icon > search</mat-icon></a>
+      <div class="searchBox" *ngIf="!searching" > 
+        <!-- *ngIf="searching" -->
         <div class="input_group">
-            <img src="../../../assets/images/search.png" alt="" class="form_icon " *ngIf="!searching" />
-            <img src="../../../assets/images/left-arrow.png" alt="" class="form_icon " *ngIf="searching" />
-            <input #userName type="text" id="input" class="l_form_control" placeholder="Type here..." [(ngModel)]="searchByName" (keyup)="filterMessageList()" (focus)="onFocus()" (blur)="onBlur()" />
+            <mat-icon class="form_icon " *ngIf="searching"> search</mat-icon>
+            <mat-icon class="form_icon " *ngIf="!searching" (click)="onBlur()"> arrow_back</mat-icon>
+            <input #userName type="text" id="input" class="l_form_control" placeholder="Type here..." [(ngModel)]="searchByMessage" (keyup)="filterMessageList()" (focus)="onFocus()" (blur)="onBlur()" autofocus />
         </div>
-    </div> -->
+    </div>
       <mat-icon [matMenuTriggerFor]="beforeMenu">more_vert</mat-icon>
       <mat-menu #beforeMenu="matMenu" xPosition="before">
         <button mat-menu-item (click)="openProfileDialog(currentChatUser)">

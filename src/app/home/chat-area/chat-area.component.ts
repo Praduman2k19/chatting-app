@@ -106,13 +106,13 @@ export class ChatAreaComponent implements OnInit {
   }
 
   filteredMessageList: any = []
-  searchByName: string = ''
+  searchByMessage: string = ''
   filterMessageList() {
     this.filteredMessageList = this.messageList;
-    if (this.searchByName != '') {
+    if (this.searchByMessage != '') {
       this.filteredMessageList = this.filteredMessageList.filter((chat: any) => {
-        console.log(this.searchByName, chat?.name);
-        return (chat?.message?.toLowerCase().includes(this.searchByName?.toLowerCase()));
+        // console.log(this.searchByMessage, chat?.message);
+        return (chat?.message?.toLowerCase().includes(this.searchByMessage?.toLowerCase()));
       })
     }
     console.log(this.filteredMessageList);
@@ -120,9 +120,13 @@ export class ChatAreaComponent implements OnInit {
   searching = true
   onFocus() {
     this.searching = false
+    this.searchByMessage = ''
+    this.filterMessageList();
   }
   onBlur() {
     this.searching = true
+    this.searchByMessage = ''
+    this.filterMessageList();
   }
 
   sidebarSize: any;

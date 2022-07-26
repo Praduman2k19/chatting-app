@@ -77,31 +77,36 @@
             height: 50px;
             // background: rgba(77, 198, 190, 0.187);
 
-            mat-icon,.searchBox {
+            a,.searchBox {
                 padding: 0px 15px;
+                // background: #42CB6B;
             }
 
             // searchBox ---------------------------------
             .searchBox {
-                padding: 10px 15px;
+                // padding: 10px 15px;
+                margin-right: 10px;
+                width: 200px;
 
                 .input_group {
                     position: relative;
 
                     .form_icon {
                         position: absolute;
-                        left: 12px;
-                        top: 10px;
+                        left: 6px;
+                        top: 7px;
+                        color: #a9a9a9;
+                        font-size: 20px;
+                        cursor: pointer;
                     }
 
                     input {
-                        width: 86%;
+                        width: 90%;
                     }
 
                     input[type=text]:focus {
                         box-shadow: none;
                         outline: none;
-
                     }
 
                     .l_form_control {
@@ -113,9 +118,9 @@
                         color: black;
                         font-size: 14px;
                         line-height: 18px;
-                        padding: 8px 3% 8px 12%;
+                        padding: 8px 10px 8px 30px;
                         border-radius: 5px;
-                        left: 50px;
+                        // left: 50px;
                     }
                 }
             }

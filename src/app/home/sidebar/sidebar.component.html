@@ -1,8 +1,8 @@
 <div class="sidebar" id="sidebar" onbeforeunload="ConfirmClose()" onunload="HandleOnClose()">
     <div class="header">
         <div class="profile">
-            <img src="../../../assets/images/profile.jpg" class="" alt="" *ngIf="!user?.photoURL" (click)="openProfileDialog(id)">
-            <img src="{{user?.photoURL}}" class="" alt="" *ngIf="user?.photoURL" (click)="openProfileDialog(id)">
+            <img src="../../../assets/images/profile.jpg" class="" alt="" *ngIf="!user?.photoURL" (click)="openProfileDialog(user)">
+            <img src="{{user?.photoURL}}" class="" alt="" *ngIf="user?.photoURL" (click)="openProfileDialog(user)">
         </div>
         <div class="icon">
             <mat-icon (click)="openListOfUsersDialog('')"> chat</mat-icon>
