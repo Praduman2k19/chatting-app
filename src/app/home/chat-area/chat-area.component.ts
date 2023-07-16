@@ -18,7 +18,7 @@ export class ChatAreaComponent implements OnInit {
   currentChatUserName="";
   currentChatUserOnlineStatus=false;
   id:any;
-  constructor(private service: CommonService, private sharedService: SharedService, public dialog: MatDialog, public authService: AuthService, public renderer: Renderer2, private firestore: AngularFirestore) { 
+  constructor(private service: CommonService, private sharedService: SharedService, public dialog: MatDialog, public authService: AuthService, public renderer: Renderer2, private firestore: AngularFirestore) {
     this.id=localStorage.getItem('auth_token')
     this.sharedService.currentChatUserName.subscribe(res=>{this.currentChatUserName=res})
     this.sharedService.currentChatUserOnlineStatus.subscribe(res=>{this.currentChatUserOnlineStatus=res})
@@ -29,22 +29,22 @@ export class ChatAreaComponent implements OnInit {
       if(this.currentChatUserId!=""){
         this.getCurrentChatUser()
       }
-      
+
     this.sharedService.createdBy.subscribe(res=>{
       this.createdBy=res;
       if(this.currentChatUserId!="" && this.createdBy!=""){
         this.getmessages();
       }
     })
-      
-      
+
+
     })
-    
+
   }
 
-  ngOnInit(): void {  
+  ngOnInit(): void {
   }
-  
+
   currentChatUser:any;
   getCurrentChatUser(){
     this.service.getUserById(this.currentChatUserId).subscribe(res=>{
@@ -55,7 +55,7 @@ export class ChatAreaComponent implements OnInit {
   message:string=""
   sendMessage(event:any){
     console.log("message : ",this.message);
-    
+
     if(this.message=="")
     return;
     if(this.messageList.length==0){
@@ -66,7 +66,7 @@ export class ChatAreaComponent implements OnInit {
       }
       this.sharedService.createdBy.next(this.id);
       this.service.addUserToMyContact(this.id,this.currentChatUserId, contactObj).then(res=>{
-        console.log("user added to my contact ");        
+        console.log("user added to my contact ");
       })
     }
     let messageObj={
@@ -76,17 +76,28 @@ export class ChatAreaComponent implements OnInit {
       updatedAt: new Date()
     }
 
+    let tempMessage = this.message
     this.message = ""
     console.log("send messages ",this.id, this.currentChatUserId,this.createdBy);
     console.log(this.id==this.createdBy);
-    
+
     let currentChatId=this.id==this.createdBy? this.id+'_'+this.currentChatUserId : this.currentChatUserId+'_'+this.id;
     console.log(currentChatId);
+
     this.service.sendMessage(currentChatId , messageObj).then(res=>{
-      console.log("message sent ...");  
+      console.log("message sent ...");
       this.message=""
     })
-    
+    let LastMessageObj = {
+      lastMessage: tempMessage,
+      lastSenderId: this.currentChatUserId,
+      lastMessageAt: new Date(),
+    }
+    this.service.updateLastMessage(this.currentChatUserId, LastMessageObj).then(res=>{
+      console.log("last message updated ...", LastMessageObj);
+
+    })
+
   }
   messageList:any=[];
   getmessages(){
@@ -173,5 +184,5 @@ export class ChatAreaComponent implements OnInit {
 
   filteredCurrentChat=[{},{right:true},{},{right:true},{},{right:true},{},{right:true},{},{},{right:true},{},{right:true},{},{right:true},{},{right:true},{},{right:true},{},{right:true}]
 
-  
+
 }

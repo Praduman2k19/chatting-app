@@ -7,6 +7,7 @@ import * as firebase from 'firebase';
 import 'firebase/auth';
 import 'firebase/auth';
 import 'firebase/firestore'
+import { merge } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -18,7 +19,7 @@ export class CommonService {
     private router: Router,
     private dialog : MatDialog,
     private firestore: AngularFirestore,)
-    { 
+    {
       this.id=localStorage.getItem("auth_token");
     }
 
@@ -42,7 +43,7 @@ export class CommonService {
     })
   }
   getMyContacts(id:string){
-    return this.firestore.collection('users').doc(id).collection('contacts').snapshotChanges();
+    return this.firestore.collection('users').doc(id).collection('contacts', ref => ref.orderBy("lastMessageAt", "desc")).snapshotChanges();
   }
   getMyContactById(contactId:string){
     return this.firestore.collection('users').doc(this.id).collection('contacts').doc(contactId).get();
@@ -51,10 +52,14 @@ export class CommonService {
   sendMessage(chatId:string, messageObj:any){
     return this.firestore.collection('chats').doc(chatId).collection('messages').add(messageObj)
   }
+  updateLastMessage(contactId: string,obj:any){
+      return this.firestore.collection('users').doc(this.id).collection('contacts').doc(contactId).set(obj,{merge:true});
+    }
+
   getMessages(chatId:string){
-    return this.firestore.collection('chats').doc(chatId).collection('messages', ref => ref.orderBy("createdAt","asc")).snapshotChanges();
+    return this.firestore.collection('chats').doc(chatId).collection('messages', ref => ref.orderBy("createdAt","asc")).snapshotChanges()
   }
-  
+
   userOnline(id:string,status:boolean){
     return this.firestore.collection('users').doc(id).set({online:status},{merge:true});
   }

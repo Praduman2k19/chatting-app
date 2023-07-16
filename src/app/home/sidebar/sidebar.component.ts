@@ -17,17 +17,17 @@ export class SidebarComponent implements OnInit {
   myContacts:any=[];
   id:any
   currentChatUserId="";
-  constructor(public dialog : MatDialog,public service:CommonService, public authService: AuthService, private sharedService:SharedService, public renderer: Renderer2,private firestore: AngularFirestore) { 
+  constructor(public dialog : MatDialog,public service:CommonService, public authService: AuthService, private sharedService:SharedService, public renderer: Renderer2,private firestore: AngularFirestore) {
     this.id=localStorage.getItem('auth_token')
     this.sharedService.currentChatUserId.subscribe(res=>{this.currentChatUserId=res})
-    
+
   }
 
   ngOnInit(): void {
     this.getUserById()
     this.getMyContact()
     this.service.userOnline(this.id,true).then(res=>{
-      console.log("user online");          
+      console.log("user online");
     })
     // this.myContacts=[{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}]
   }
@@ -47,9 +47,11 @@ export class SidebarComponent implements OnInit {
         return {
           id : item.payload.doc.id,
           ...item.payload.doc.data()
-        }        
+        }
       })
       console.log("my temp Contacts list...", tempContacts);
+
+      let length = tempContacts?.length
       this.myContacts=[];
       tempContacts.forEach((item: any) => {
         this.service.getUserById(item?.id).subscribe(res=>{
@@ -58,16 +60,20 @@ export class SidebarComponent implements OnInit {
 
           temp['createdBy']=item?.createdBy;
           temp['createdAt']=item?.createdAt;
-          temp['updatedAt']=item?.updatedAt;
-          // temp['chatId']=item?.chatId;
+          temp['updatedAt'] = item?.updatedAt;
+          temp['lastMessage'] = item?.lastMessage;
+          temp['lastSenderId'] = item?.lastSenderId;
+          temp['lastMessageAt'] = item?.lastMessageAt;
 
           this.myContacts.push(temp);
-          // console.log(this.myContacts);
+          console.log(this.myContacts);
+
+          if(length==this.myContacts.length)
+          this.filteredContact = this.myContacts
         })
         // console.log("myContact list-------------",this.myContacts);
       });
       console.log("myContact list-------------",this.myContacts);
-      this.filteredContact=this.myContacts
       // tempContacts.forEach((studentID: any) => this.myContacts.push(this.firestore.collection('users').doc(studentID?.id).get()));
       // console.log("myContact list-------------",this.myContacts);
 
@@ -78,7 +84,7 @@ export class SidebarComponent implements OnInit {
         this.sharedService.currentChatUserName.next(this.myContacts[0]?.name)
         this.sharedService.currentChatUserOnlineStatus.next(this.myContacts[0]?.online)
       }
-      
+
     })
   }
 
@@ -89,11 +95,11 @@ export class SidebarComponent implements OnInit {
     if (this.searchByName!=''){
       this.filteredContact=this.filteredContact.filter((item: any) => {
         console.log(this.searchByName, item?.name);
-        return (          
+        return (
           (item?.name?.toLowerCase().includes(this.searchByName?.toLowerCase()) || item?.phone?.toLowerCase().includes(this.searchByName?.toLowerCase()))
         );
       })
-    } 
+    }
     console.log(this.filteredContact);
   }
 
@@ -102,7 +108,7 @@ export class SidebarComponent implements OnInit {
     this.sharedService.currentChatUserId.next(chat?.id);
     this.sharedService.createdBy.next(chat?.createdBy?chat?.createdBy:"")
     this.sharedService.currentChatUserName.next(chat?.name)
-    this.sharedService?.currentChatUserOnlineStatus.next(chat?.online) 
+    this.sharedService?.currentChatUserOnlineStatus.next(chat?.online)
   }
 
   searching=true
@@ -117,12 +123,12 @@ export class SidebarComponent implements OnInit {
     //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
     //Add 'implements AfterViewInit' to the class.
     this.onResize("event?: any")
-    
+
   }
-  
 
 
-  
+
+
   sidebarSize:any;
   @HostListener('window:resize', ['$event'])
   onResize(event?: any) {
@@ -130,7 +136,7 @@ export class SidebarComponent implements OnInit {
     console.log(sidebarwidth);
     let screenWidth = window.innerWidth;
     console.log(screenWidth);
-    
+
     if(screenWidth<=1200){
       this.sidebarSize={
         left:'0%',
@@ -146,9 +152,9 @@ export class SidebarComponent implements OnInit {
       }
     }
     console.log(this.sidebarSize);
-    
+
   }
-  openListOfUsersDialog(data:any) {  
+  openListOfUsersDialog(data:any) {
     const dialogRef = this.dialog.open(ListOfUsersComponent, {
       width: this.sidebarSize?.width,
       height: this.sidebarSize?.height,
@@ -181,7 +187,7 @@ export class SidebarComponent implements OnInit {
   }
 
 
-   
+
 }
 
 

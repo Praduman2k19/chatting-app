@@ -13,7 +13,7 @@
     </div>
     <mat-divider></mat-divider>
 
-    
+
     <!-- list of users  -->
 
     <div class="users">
@@ -30,18 +30,19 @@
         <!-- !group -->
         <div class="user" *ngFor="let item of filteredUsers; let i=index" [ngClass]="{'activeChat' : item?.id==currentChatUserId}" (click)="setCurrentChat(item)" >
             <div class="avatar" [ngClass]="{'online' : item?.online}">
-                <img src="../../../assets/images/profile.jpg" class="" alt="" *ngIf="!item?.photoURL">
-                <img src="{{item?.photoURL}}" class="" alt="" *ngIf="item?.photoURL" >
+                <img src="../../../assets/images/profile.jpg" class="" alt="" >
+                <!-- <img src="{{item?.photoURL}}" class="" alt="" *ngIf="item?.photoURL" > -->
             </div>
             <div class="media_body ml_12" >
                 <h6>{{item?.name}}</h6>
                 <span *ngIf="item?.bio.length>75">{{item?.bio.substring(0,75)+'...'}}</span>
                 <span *ngIf="item?.bio.length<=75">{{item?.bio}}</span>
             </div>
-            <!-- <div class="media_status">
-                <p class="time">12:32</p>
-                <span class="time_class">2</span>
-            </div> -->
+            <div class="media_status">
+                <p class="time">Joined On</p>
+                <p class="time">{{item?.createdAt.seconds*1000 | date:'mediumDate'}}</p>
+                <!-- <span class="time_class">item?.createdAt.seconds*1000 | date:'h:mm a'</span> -->
+            </div>
         </div>
     </div>
 </div>
