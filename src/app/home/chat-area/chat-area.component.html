@@ -33,10 +33,10 @@
   </div>
 
   <!-- chat messages -->
-  <div class="chat_content_inner_body">
+  <div class="chat_content_inner_body" #scrollMe >
     <div class="chat_content_group">
       <div class="message-chat">
-        <div class="chat-body" #scrollMe>
+        <div class="chat-body">
           <div *ngFor="let chat of filteredMessageList">
             <div class="message info" *ngIf="chat?.senderId != id">
               <div class="message-body">

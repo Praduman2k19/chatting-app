@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { MatDialog } from '@angular/material/dialog';
 import { ProfileComponent } from 'src/app/pages/profile/profile.component';
@@ -11,7 +11,7 @@ import { SharedService } from 'src/app/services/shared.service';
   templateUrl: './chat-area.component.html',
   styleUrls: ['./chat-area.component.scss']
 })
-export class ChatAreaComponent implements OnInit {
+export class ChatAreaComponent {
 
   currentChatUserId="";
   createdBy=""
@@ -42,8 +42,6 @@ export class ChatAreaComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {
-  }
 
   currentChatUser:any;
   getCurrentChatUser(){
@@ -86,7 +84,8 @@ export class ChatAreaComponent implements OnInit {
 
     this.service.sendMessage(currentChatId , messageObj).then(res=>{
       console.log("message sent ...");
-      this.message=""
+      this.message = ""
+      this.scrollToBottom();
     })
     let LastMessageObj = {
       lastMessage: tempMessage,
@@ -185,4 +184,35 @@ export class ChatAreaComponent implements OnInit {
   filteredCurrentChat=[{},{right:true},{},{right:true},{},{right:true},{},{right:true},{},{},{right:true},{},{right:true},{},{right:true},{},{right:true},{},{right:true},{},{right:true}]
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // for scrolling purposes
+
+  @ViewChild('scrollMe')
+  public myScrollContainer!: ElementRef;
+  
+  ngAfterContentChecked(): void {
+    this.scrollToBottom()
+
+  }
+  scrollToBottom(): void {
+    try {
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch (err) { }
+  }
 }
